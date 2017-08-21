@@ -13,7 +13,8 @@ public class Dice {
     public Dice(char[] sides) {
         this.sides = sides;
     }
-    public char throwDice(){
+
+    public char throwDice() {
         int randNum = rand.nextInt(6);
         return sides[randNum];
     }

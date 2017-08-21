@@ -2,14 +2,11 @@ package presentation;
 
 import android.os.CountDownTimer;
 
-import com.boggleproject.boggle.MainActivity;
+import com.boggleproject.boggle.MainActivityInterface;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
 import model.BoggleBox;
-import model.DiceFactory;
 
 /**
  * Created by lukas on 7/25/17.
@@ -17,32 +14,27 @@ import model.DiceFactory;
 
 public class MainActivityPresenter {
     private BoggleBox boggleBox;
-    private MainActivity mainActivity;
+    private MainActivityInterface mainActivity;
     private CountDownTimer countDownTimer;
     private boolean timerButtonClicked;
 
-    public MainActivityPresenter(MainActivity mainActivity) {
+    public MainActivityPresenter(MainActivityInterface mainActivity) {
         this.mainActivity = mainActivity;
         createBoggleBox();
     }
 
-    private void createBoggleBox(){
-        try {
-            InputStream input = mainActivity.getAssets().open("diceSide_ger.txt");
-            boggleBox = new BoggleBox(DiceFactory.createDices(input));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void createBoggleBox() {
+        boggleBox = new BoggleBox(mainActivity.getInputDice());
     }
 
     public char[] getMixedDices() {
         return boggleBox.shakeBoggleBox();
     }
 
-    public int getRotation(){
+    public int getRotation() {
         Random rand = new Random();
         int randNum = rand.nextInt(4);
-        switch(randNum){
+        switch (randNum) {
             case 0:
                 return 0;
             case 1:
@@ -56,12 +48,12 @@ public class MainActivityPresenter {
         }
     }
 
-    public void setCountDownTimer(long time){
+    public void setCountDownTimer(long time) {
         countDownTimer = new CountDownTimerActivity(time, 1000);
     }
 
-    public void timerButtonClick(){
-        if(!timerButtonClicked)
+    public void timerButtonClick() {
+        if (!timerButtonClicked)
             countDownTimer.start();
         else {
             countDownTimer.cancel();
@@ -69,7 +61,7 @@ public class MainActivityPresenter {
         timerButtonClicked = !timerButtonClicked;
     }
 
-    public class CountDownTimerActivity extends CountDownTimer{
+    public class CountDownTimerActivity extends CountDownTimer {
 
         public CountDownTimerActivity(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);

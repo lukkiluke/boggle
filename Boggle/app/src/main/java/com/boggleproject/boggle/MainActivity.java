@@ -10,18 +10,21 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import presentation.MainActivityPresenter;
 
-public class MainActivity extends AppCompatActivity implements MainActivityInterface{
+public class MainActivity extends AppCompatActivity implements MainActivityInterface {
 
     MainActivityPresenter presenter;
-    TextView [] diceTextViewArray;
+    TextView[] diceTextViewArray;
     TextView countDownTxtView;
     Button throwBtn;
     Button timerBtn;
     Button timerFinishedBtn;
 
-    private void initTextViews(){
+    private void initTextViews() {
         diceTextViewArray = new TextView[16];
         diceTextViewArray[0] = (TextView) findViewById(R.id.diceTextView1);
         diceTextViewArray[1] = (TextView) findViewById(R.id.diceTextView2);
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         countDownTxtView = (TextView) findViewById(R.id.countdownTxtView);
     }
 
-    private void initButtons(){
+    private void initButtons() {
         throwBtn = (Button) findViewById(R.id.throwbtn);
         timerBtn = (Button) findViewById(R.id.timerbtn);
         timerFinishedBtn = (Button) findViewById(R.id.timerfinishedbtn);
@@ -85,52 +88,62 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         });
     }
 
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
             return true;
         }
 
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void setMixedDicesOnView() {
-        char[] topSidesOfDices = presenter.getMixedDices();;
+        char[] topSidesOfDices = presenter.getMixedDices();
+        ;
         for (int i = 0; i < diceTextViewArray.length; i++) {
             diceTextViewArray[i].setText(Character.toString(topSidesOfDices[i]));
             diceTextViewArray[i].setRotation(getRotation());
         }
     }
 
-    @Override
     public int getRotation() {
         return presenter.getRotation();
     }
 
     @Override
     public void actionOnTimerTick(long l) {
-        countDownTxtView.setText("" + l/1000);
+        countDownTxtView.setText("" + l / 1000);
         timerBtn.setText("Timer is running");
-
     }
 
     @Override
     public void actionOnTimerFinish() {
         timerFinishedBtn.setVisibility(View.VISIBLE);
         timerBtn.setText("Restart Timer");
+    }
+
+    @Override
+    public InputStream getInputDice() {
+        InputStream input = null;
+        try {
+            input = this.getAssets().open("diceSides_ger.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return input;
     }
 }

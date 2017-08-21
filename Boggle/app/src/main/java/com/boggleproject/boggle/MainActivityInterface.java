@@ -1,5 +1,7 @@
 package com.boggleproject.boggle;
 
+import java.io.InputStream;
+
 /**
  * Created by lukas on 7/25/17.
  */
@@ -7,7 +9,10 @@ package com.boggleproject.boggle;
 public interface MainActivityInterface {
 
     void setMixedDicesOnView();
-    int getRotation();
+
     void actionOnTimerTick(long l);
+
     void actionOnTimerFinish();
+
+    InputStream getInputDice();
 }
