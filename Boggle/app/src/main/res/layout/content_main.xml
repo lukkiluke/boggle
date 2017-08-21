@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.boggleproject.boggle.MainActivity"
+    tools:showIn="@layout/activity_main"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/diceTextView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView9"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView6" />
+
+    <TextView
+        android:id="@+id/diceTextView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView13"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView10" />
+
+    <TextView
+        android:id="@+id/diceTextView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView5"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView2" />
+
+    <TextView
+        android:id="@+id/diceTextView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView1" />
+
+    <TextView
+        android:id="@+id/diceTextView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView5" />
+
+    <TextView
+        android:id="@+id/diceTextView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView9" />
+
+    <TextView
+        android:id="@+id/diceTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="50dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/throwbtn" />
+
+    <TextView
+        android:id="@+id/diceTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView1"
+        app:layout_constraintTop_toBottomOf="@+id/throwbtn" />
+
+    <TextView
+        android:id="@+id/diceTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView2"
+        app:layout_constraintTop_toBottomOf="@+id/throwbtn" />
+
+    <TextView
+        android:id="@+id/diceTextView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView6"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView3" />
+
+    <TextView
+        android:id="@+id/diceTextView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView10"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView7" />
+
+    <TextView
+        android:id="@+id/diceTextView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView14"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView11" />
+
+    <TextView
+        android:id="@+id/diceTextView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintHorizontal_bias="0.232"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/throwbtn" />
+
+    <TextView
+        android:id="@+id/diceTextView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView4" />
+
+    <TextView
+        android:id="@+id/diceTextView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView8" />
+
+    <TextView
+        android:id="@+id/diceTextView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:background="@drawable/back"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintLeft_toRightOf="@+id/diceTextView3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceTextView12" />
+
+    <Button
+        android:id="@+id/throwbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:text="throw Dice"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/timerbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="50dp"
+        android:text="Start Timer"
+        app:layout_constraintHorizontal_bias="0.373"
+        app:layout_constraintLeft_toRightOf="@+id/throwbtn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/countdownTxtView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/timerfinishedbtn"
+        android:layout_width="225dp"
+        android:layout_height="256dp"
+        android:layout_marginTop="189dp"
+        android:background="@android:color/holo_blue_dark"
+        android:text="Time is over"
+        android:textSize="30sp"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
