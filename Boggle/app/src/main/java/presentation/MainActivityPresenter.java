@@ -2,6 +2,7 @@ package presentation;
 
 import android.os.CountDownTimer;
 
+import com.boggleproject.boggle.EditCountdownDialog;
 import com.boggleproject.boggle.MainActivityInterface;
 
 import java.util.Random;
@@ -48,8 +49,8 @@ public class MainActivityPresenter {
         }
     }
 
-    public void setCountDownTimer(long time) {
-        countDownTimer = new CountDownTimerActivity(time, 1000);
+    public void setCountDownTimer(long l) {
+        countDownTimer = new CountDownTimerActivity(l, 1000);
     }
 
     public void timerButtonClick() {

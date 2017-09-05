@@ -1,6 +1,9 @@
 package com.boggleproject.boggle;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -87,10 +90,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 presenter.timerButtonClick();
-                if (isChecked)
+                if (isChecked) {
                     toggleTimerBtn.setTextOn("Timer abbrechen");
-                else
+                    throwBtn.setEnabled(false);
+                } else {
                     toggleTimerBtn.setTextOff("Timer neustarten");
+                    throwBtn.setEnabled(true);
+                }
             }
         });
     }
@@ -113,8 +119,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         if (id == R.id.action_settings) {
             return true;
         }
+        if(id == R.id.timer_settings){
+            countDownTxtView.setText("181");
+            showCountdownDialog();
+//            showTimePickerDialog();
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+//    public void showTimePickerDialog(){
+//        DialogFragment fragment = new TimePickerFragment();
+//        fragment.show(getSupportFragmentManager(), "timePicker");
+//    }
+
+    private void showCountdownDialog() {
+        EditCountdownDialog editCountdownDialog= new EditCountdownDialog();
+        editCountdownDialog.show(getSupportFragmentManager(), "fragment_edit_countdown");
     }
 
     @Override
