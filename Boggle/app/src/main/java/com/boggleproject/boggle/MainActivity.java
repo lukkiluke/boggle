@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +19,12 @@ import presentation.MainActivityPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainActivityInterface {
 
-    MainActivityPresenter presenter;
-    TextView[] diceTextViewArray;
-    TextView countDownTxtView;
-    Button throwBtn;
-    Button timerBtn;
-    Button timerFinishedBtn;
+    private MainActivityPresenter presenter;
+    private TextView[] diceTextViewArray;
+    private TextView countDownTxtView;
+    private Button throwBtn;
+    private ToggleButton toggleTimerBtn;
+    private Button timerFinishedBtn;
 
     private void initTextViews() {
         diceTextViewArray = new TextView[16];
@@ -48,9 +50,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     private void initButtons() {
         throwBtn = (Button) findViewById(R.id.throwbtn);
-        timerBtn = (Button) findViewById(R.id.timerbtn);
         timerFinishedBtn = (Button) findViewById(R.id.timerfinishedbtn);
         timerFinishedBtn.setVisibility(View.INVISIBLE);
+        toggleTimerBtn = (ToggleButton) findViewById(R.id.toggleTimerBtn);
+        toggleTimerBtn.setText("Timer starten");
     }
 
     @Override
@@ -74,16 +77,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             }
 
         });
-        timerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.timerButtonClick();
-            }
-        });
         timerFinishedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 timerFinishedBtn.setVisibility(View.INVISIBLE);
+            }
+        });
+        toggleTimerBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                presenter.timerButtonClick();
+                if (isChecked)
+                    toggleTimerBtn.setTextOn("Timer abbrechen");
+                else
+                    toggleTimerBtn.setTextOff("Timer neustarten");
             }
         });
     }
@@ -127,13 +134,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     @Override
     public void actionOnTimerTick(long l) {
         countDownTxtView.setText("" + l / 1000);
-        timerBtn.setText("Timer is running");
     }
 
     @Override
     public void actionOnTimerFinish() {
         timerFinishedBtn.setVisibility(View.VISIBLE);
-        timerBtn.setText("Restart Timer");
+        toggleTimerBtn.setText("Timer neustarten");
     }
 
     @Override
