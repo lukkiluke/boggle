@@ -120,21 +120,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             return true;
         }
         if(id == R.id.timer_settings){
-            countDownTxtView.setText("181");
-            showCountdownDialog();
-//            showTimePickerDialog();
+            presenter.showCountdownDialog();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-//    public void showTimePickerDialog(){
-//        DialogFragment fragment = new TimePickerFragment();
-//        fragment.show(getSupportFragmentManager(), "timePicker");
-//    }
-
-    private void showCountdownDialog() {
-        EditCountdownDialog editCountdownDialog= new EditCountdownDialog();
+    @Override
+    public void showCountdownDialog(EditCountdownDialog editCountdownDialog) {
         editCountdownDialog.show(getSupportFragmentManager(), "fragment_edit_countdown");
     }
 

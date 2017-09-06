@@ -16,6 +16,7 @@ import model.BoggleBox;
 public class MainActivityPresenter {
     private BoggleBox boggleBox;
     private MainActivityInterface mainActivity;
+    private EditCountdownDialog editCountdownDialog;
     private CountDownTimer countDownTimer;
     private boolean timerButtonClicked;
 
@@ -51,6 +52,14 @@ public class MainActivityPresenter {
 
     public void setCountDownTimer(long l) {
         countDownTimer = new CountDownTimerActivity(l, 1000);
+    }
+
+    public void showCountdownDialog(){
+        CountdownDialogPresenter countdownDialogPresenter = new CountdownDialogPresenter(this);
+        editCountdownDialog = new EditCountdownDialog();
+        countdownDialogPresenter.setCountdownDialog(editCountdownDialog);
+        editCountdownDialog.setCountdownDialogPresenter(countdownDialogPresenter);
+        mainActivity.showCountdownDialog(editCountdownDialog);
     }
 
     public void timerButtonClick() {

@@ -8,11 +8,13 @@ import java.io.InputStream;
 
 public interface MainActivityInterface {
 
+    InputStream getInputDice();
+
     void setMixedDicesOnView();
 
     void actionOnTimerTick(long l);
 
     void actionOnTimerFinish();
 
-    InputStream getInputDice();
+    void showCountdownDialog(EditCountdownDialog editCountdownDialog);
 }
