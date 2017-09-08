@@ -10,8 +10,8 @@ public class CountdownDialogPresenter {
 
     private MainActivityPresenter mainActivityPresenter;
     private EditCountdownDialogInterface cdDialog;
-    private long[] maxMinMinutes;
-    private long[] maxMinSeconds;
+    private int[] maxMinMinutes;
+    private int[] maxMinSeconds;
 
     public CountdownDialogPresenter(MainActivityPresenter mainActivityPresenter) {
         this.mainActivityPresenter = mainActivityPresenter;
@@ -33,18 +33,18 @@ public class CountdownDialogPresenter {
     }
 
     private void createMaxMinMinutes() {
-        maxMinMinutes = new long[]{0, 60};
+        maxMinMinutes = new int[]{0, 60};
     }
 
-    public long[] getMinMaxMinutes() {
+    public int[] getMinMaxMinutes() {
         return maxMinMinutes;
     }
 
     private void createMaxMinSeconds() {
-        maxMinSeconds = new long[]{0,60};
+        maxMinSeconds = new int[]{0,60};
     }
 
-    public long[] getMinMaxSeconds() {
+    public int[] getMinMaxSeconds() {
         return maxMinSeconds;
     }
 }

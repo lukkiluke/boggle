@@ -2,6 +2,7 @@ package com.boggleproject.boggle;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,27 +45,24 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
 
         setCurrentCountDownTimeInListViews(countdownDialogPresenter.getCountdownTimeInSeconds());
 
-        getDialog().setTitle("Countdown");
-
         minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onValueChange(NumberPicker numberPicker, int value, int i1) {
-                minute = value;
-                countdownDialogPresenter.setCountdownTimeInSeconds();
+            public void onValueChange(NumberPicker numberPicker, int val1, int val2) {
+                updateCountdownTime();
             }
         });
 
         secondPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onValueChange(NumberPicker numberPicker, int value, int i1) {
-                second = value;
-                countdownDialogPresenter.setCountdownTimeInSeconds();
+            public void onValueChange(NumberPicker numberPicker, int val1, int val2) {
+                updateCountdownTime();
             }
         });
 
         okayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                updateCountdownTime();
                 dismiss();
             }
         });
@@ -72,16 +70,39 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
         return view;
     }
 
+    private void updateCountdownTime(){
+        minute = minutePicker.getValue();
+        second = secondPicker.getValue();
+        countdownDialogPresenter.setCountdownTimeInSeconds();
+    }
+
+    public String[] getStringArrayForMinMaxValues(int min, int max){
+        int numOfElements = max-min+1;
+        String[] elementArray = new String[numOfElements];
+        int value = min;
+        for(int i = 0; i<elementArray.length; i++){
+            elementArray[i]=String.format("%02d",value);
+            value++;
+        }
+        return elementArray;
+    }
+
     @Override
     public void setMinuteValuesInView() {
-        minutePicker.setMinValue((int) countdownDialogPresenter.getMinMaxMinutes()[0]);
-        minutePicker.setMaxValue((int) countdownDialogPresenter.getMinMaxMinutes()[1]);
+        int min = countdownDialogPresenter.getMinMaxMinutes()[0];
+        int max = countdownDialogPresenter.getMinMaxMinutes()[1];
+        minutePicker.setMinValue(min);
+        minutePicker.setMaxValue(max);
+        minutePicker.setDisplayedValues(getStringArrayForMinMaxValues(min, max));
     }
 
     @Override
     public void setSecondValuesInView() {
-        secondPicker.setMinValue((int) countdownDialogPresenter.getMinMaxSeconds()[0]);
-        secondPicker.setMaxValue((int) countdownDialogPresenter.getMinMaxSeconds()[1]);
+        int min = countdownDialogPresenter.getMinMaxSeconds()[0];
+        int max = countdownDialogPresenter.getMinMaxSeconds()[1];
+        secondPicker.setMinValue(min);
+        secondPicker.setMaxValue(max);
+        secondPicker.setDisplayedValues(getStringArrayForMinMaxValues(min, max));
     }
 
     private void setCurrentCountDownTimeInListViews(long countDownTimeInSeconds) {

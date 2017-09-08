@@ -19,6 +19,7 @@
 
     <style name="numberPickerText">
         <item name="android:textSize">25dp</item>
+        <item name="android:layout_height">90dp</item>
     </style>
 
 </resources>
