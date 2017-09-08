@@ -18,19 +18,20 @@ public class CountdownDialogPresenter {
         this.mainActivityPresenter = mainActivityPresenter;
     }
 
-    public void setCountdownDialog(EditCountdownDialogInterface countdownDialog){
+    public void setCountdownDialog(EditCountdownDialogInterface countdownDialog) {
         cdDialog = countdownDialog;
     }
 
-    public void setCountdownTimeInSeconds(){
+    public void setCountdownTimeInSeconds() {
         countdownTimeInSeconds = cdDialog.getCountdownTimeInSeconds();
-        mainActivityPresenter.setCountDownTimer(countdownTimeInSeconds*1000);
+        mainActivityPresenter.setCountDownTimer(countdownTimeInSeconds * 1000);
+        mainActivityPresenter.updateView();
     }
 
-    public final ArrayList<Long> getTimeElements(){
+    public final ArrayList<Long> getTimeElements() {
         ArrayList<Long> timeElements = new ArrayList<>();
-        for (int i = 0; i<=60; i++)
-            timeElements.add((long)i);
+        for (int i = 0; i <= 60; i++)
+            timeElements.add((long) i);
         return timeElements;
     }
 }

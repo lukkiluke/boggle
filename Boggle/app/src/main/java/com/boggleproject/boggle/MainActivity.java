@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         toggleTimerBtn.setText("Timer starten");
     }
 
+    private void initContent(){
+        setMixedDicesOnView();
+        setCountDownText(presenter.getCountDownTime());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         initButtons();
 
         presenter = new MainActivityPresenter(this);
-        presenter.setCountDownTimer(180000);
+        initContent();
 
         throwBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         if (id == R.id.action_settings) {
             return true;
         }
-        if(id == R.id.timer_settings){
+        if (id == R.id.timer_settings) {
             presenter.showCountdownDialog();
         }
 
@@ -145,9 +150,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         return presenter.getRotation();
     }
 
+    private void setCountDownText(long countDownTimeInMilliseconds){
+        countDownTxtView.setText(getTextInMinutesAndSeconds(countDownTimeInMilliseconds));
+    }
+
+    private String getTextInMinutesAndSeconds(long timeInMilliseconds){
+        long seconds = timeInMilliseconds/1000;
+        long minutes = (int) seconds/60;
+        seconds = seconds - (minutes*60);
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    @Override
+    public void updateView() {
+        setCountDownText(presenter.getCountDownTime());
+    }
+
     @Override
     public void actionOnTimerTick(long l) {
-        countDownTxtView.setText("" + l / 1000);
+        countDownTxtView.setText(getTextInMinutesAndSeconds(l));
     }
 
     @Override

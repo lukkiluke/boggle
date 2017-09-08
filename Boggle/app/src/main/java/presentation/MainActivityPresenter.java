@@ -3,6 +3,7 @@ package presentation;
 import android.os.CountDownTimer;
 
 import com.boggleproject.boggle.EditCountdownDialog;
+import com.boggleproject.boggle.EditCountdownDialogInterface;
 import com.boggleproject.boggle.MainActivityInterface;
 
 import java.util.Random;
@@ -16,13 +17,14 @@ import model.BoggleBox;
 public class MainActivityPresenter {
     private BoggleBox boggleBox;
     private MainActivityInterface mainActivity;
-    private EditCountdownDialog editCountdownDialog;
     private CountDownTimer countDownTimer;
+    private long countDownTime;
     private boolean timerButtonClicked;
 
     public MainActivityPresenter(MainActivityInterface mainActivity) {
         this.mainActivity = mainActivity;
         createBoggleBox();
+        setCountDownTimer(180000);
     }
 
     private void createBoggleBox() {
@@ -50,23 +52,34 @@ public class MainActivityPresenter {
         }
     }
 
+    public void updateView() {
+        mainActivity.updateView();
+    }
+
     public void setCountDownTimer(long l) {
+        countDownTime = l;
         countDownTimer = new CountDownTimerActivity(l, 1000);
     }
 
-    public void showCountdownDialog(){
+    public long getCountDownTime() {
+        return countDownTime;
+    }
+
+    public void showCountdownDialog() {
         CountdownDialogPresenter countdownDialogPresenter = new CountdownDialogPresenter(this);
-        editCountdownDialog = new EditCountdownDialog();
+        EditCountdownDialog editCountdownDialog = new EditCountdownDialog();
         countdownDialogPresenter.setCountdownDialog(editCountdownDialog);
         editCountdownDialog.setCountdownDialogPresenter(countdownDialogPresenter);
         mainActivity.showCountdownDialog(editCountdownDialog);
     }
 
     public void timerButtonClick() {
-        if (!timerButtonClicked)
+        if (!timerButtonClicked) {
             countDownTimer.start();
-        else {
+            mainActivity.updateView();
+        } else {
             countDownTimer.cancel();
+            mainActivity.updateView();
         }
         timerButtonClicked = !timerButtonClicked;
     }

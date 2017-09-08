@@ -17,4 +17,6 @@ public interface MainActivityInterface {
     void actionOnTimerFinish();
 
     void showCountdownDialog(EditCountdownDialog editCountdownDialog);
+
+    void updateView();
 }

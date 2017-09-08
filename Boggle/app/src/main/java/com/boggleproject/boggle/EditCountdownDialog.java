@@ -64,7 +64,7 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
             }
         });
 
-        okayBtn.setOnClickListener(new View.OnClickListener(){
+        okayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 countdownDialogPresenter.setCountdownTimeInSeconds();
@@ -75,7 +75,7 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
         return view;
     }
 
-    private  ArrayAdapter<Long> getArrayAdapterForArray(ArrayList<Long> dataList){
+    private ArrayAdapter<Long> getArrayAdapterForArray(ArrayList<Long> dataList) {
         ArrayAdapter<Long> listViewArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.list_item_countdown, dataList); //selected item will look like a spinner set from XML
         return listViewArrayAdapter;
     }
@@ -91,16 +91,16 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
     }
 
 
-    private long getMinutesInSeconds(){
-        return minutes*60;
+    private long getMinutesInSeconds() {
+        return minutes * 60;
     }
 
-    private long getSeconds(){
+    private long getSeconds() {
         return seconds;
     }
 
-    private long calculateCountdownTimeInSeconds(){
-        return getMinutesInSeconds()+getSeconds();
+    private long calculateCountdownTimeInSeconds() {
+        return getMinutesInSeconds() + getSeconds();
     }
 
 
