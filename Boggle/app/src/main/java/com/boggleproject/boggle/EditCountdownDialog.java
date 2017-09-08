@@ -2,18 +2,14 @@ package com.boggleproject.boggle;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import presentation.CountdownDialogPresenter;
@@ -24,9 +20,11 @@ import presentation.CountdownDialogPresenter;
 
 public class EditCountdownDialog extends DialogFragment implements EditCountdownDialogInterface {
 
-    private Spinner minuteSpinner;
-    private Spinner secondSpinner;
+    private ListView minuteListView;
+    private ListView secondListView;
     private CountdownDialogPresenter countdownDialogPresenter;
+    private long minutes;
+    private long seconds;
 
     public EditCountdownDialog() {
         // Empty constructor required for DialogFragment
@@ -41,59 +39,68 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_countdown, container);
-        minuteSpinner = view.findViewById(R.id.minutesSpinner);
-        secondSpinner = view.findViewById(R.id.secondsSpinner);
+        minuteListView = view.findViewById(R.id.listViewMinutes);
+        secondListView = view.findViewById(R.id.listViewSeconds);
+        Button okayBtn = view.findViewById(R.id.okayBtn);
 
-        setMinutes();
-        setSeconds();
+        setMinuteValuesInView();
+        setSecondValuesInView();
 
         getDialog().setTitle("Countdown");
+
+        minuteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                minutes = (long) minuteListView.getAdapter().getItem(position);
+                countdownDialogPresenter.setCountdownTimeInSeconds();
+            }
+        });
+
+        secondListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                seconds = (long) secondListView.getAdapter().getItem(position);
+                countdownDialogPresenter.setCountdownTimeInSeconds();
+            }
+        });
+
+        okayBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                countdownDialogPresenter.setCountdownTimeInSeconds();
+                dismiss();
+            }
+        });
 
         return view;
     }
 
-    private  ArrayAdapter<Long> getArrayAdapterForArray(ArrayList<Long> dataArray){
-        ArrayAdapter<Long> spinnerArrayAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, dataArray); //selected item will look like a spinner set from XML
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        return spinnerArrayAdapter;
+    private  ArrayAdapter<Long> getArrayAdapterForArray(ArrayList<Long> dataList){
+        ArrayAdapter<Long> listViewArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.list_item_countdown, dataList); //selected item will look like a spinner set from XML
+        return listViewArrayAdapter;
     }
 
     @Override
-    public void setMinutes() {
-        minuteSpinner.setAdapter(getArrayAdapterForArray(countdownDialogPresenter.getTimeElements()));
+    public void setMinuteValuesInView() {
+        minuteListView.setAdapter(getArrayAdapterForArray(countdownDialogPresenter.getTimeElements()));
     }
 
     @Override
-    public void setSeconds() {
-        secondSpinner.setAdapter(getArrayAdapterForArray(countdownDialogPresenter.getTimeElements()));
+    public void setSecondValuesInView() {
+        secondListView.setAdapter(getArrayAdapterForArray(countdownDialogPresenter.getTimeElements()));
     }
 
-    //
-//    private long getMinutesInSeconds(){
-//        long minutes;
-//        String minuteText = editTextMinutes.getText().toString();
-//        if(TextUtils.isEmpty(minuteText)){
-//            minutes = 0;
-//        } else {
-//            minutes = 60*Long.valueOf(minuteText);
-//        }
-//        return minutes;
-//    }
-//
-//    private long getSeconds(){
-//        long seconds;
-//        String secondText = editTextSeconds.getText().toString();
-//        if(TextUtils.isEmpty(secondText)){
-//            seconds = 0;
-//        } else {
-//            seconds = Long.valueOf(secondText);
-//        }
-//        return seconds;
-//    }
+
+    private long getMinutesInSeconds(){
+        return minutes*60;
+    }
+
+    private long getSeconds(){
+        return seconds;
+    }
 
     private long calculateCountdownTimeInSeconds(){
-//        return getMinutesInSeconds() + getSeconds();
-        return 0;
+        return getMinutesInSeconds()+getSeconds();
     }
 
 

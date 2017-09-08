@@ -1,42 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/edit_name"
+    android:id="@+id/edit_countdown"
 android:layout_width="wrap_content" android:layout_height="wrap_content"
 android:layout_gravity="center" android:orientation="vertical"  >
 
-    <EditText
-        android:id="@+id/textMinutes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:enabled="false"
-        android:inputType="textPersonName"
-        android:text="Minuten" />
 
-    <Spinner
-        android:id="@+id/minutesSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dropDownWidth="wrap_content"
-        android:gravity="center"
-        android:spinnerMode="dialog" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/textSeconds"
-        android:layout_width="92dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:enabled="false"
-        android:inputType="textPersonName"
-        android:text="Sekunden" />
+        <GridLayout
+            android:id="@+id/grid_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:layout_centerInParent="true">
 
-    <Spinner
-        android:id="@+id/secondsSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
-        android:dropDownWidth="wrap_content"
-        android:gravity="center"/>
+            <TextView
+                android:id="@+id/textMinutes"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="22dp"
+                android:textAlignment="center"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Minuten" />
+
+            <TextView
+                android:layout_width="5dp"/>
+
+            <TextView
+                android:id="@+id/textSeconds"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textSize="22dp"
+                android:textAlignment="center"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Sekunden" />
+
+            <ListView
+                android:id="@+id/listViewMinutes"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="50dp"
+                android:textSize="30dp"
+                android:text=":"
+                android:layout_marginTop="15dp"/>
+
+            <ListView
+                android:id="@+id/listViewSeconds"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"/>
+        </GridLayout>
+
+        <Button
+            android:id="@+id/okayBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/grid_layout"
+            android:layout_marginTop="100dp"
+            android:text="Okay" />
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -12,7 +12,7 @@ public interface EditCountdownDialogInterface {
 
     void setCountdownDialogPresenter(CountdownDialogPresenter countdownDialogPresenter);
 
-    void setMinutes();
+    void setMinuteValuesInView();
 
-    void setSeconds();
+    void setSecondValuesInView();
 }
