@@ -24,8 +24,7 @@ android:layout_gravity="center" android:orientation="vertical"  >
                 android:textSize="22dp"
                 android:textAlignment="center"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Minuten" />
+                android:text="@string/fragmentMinute" />
 
             <TextView
                 android:layout_width="5dp"/>
@@ -37,8 +36,7 @@ android:layout_gravity="center" android:orientation="vertical"  >
                 android:textSize="22dp"
                 android:textAlignment="center"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Sekunden" />
+                android:text="@string/fragmentSecond" />
 
             <ListView
                 android:id="@+id/listViewMinutes"

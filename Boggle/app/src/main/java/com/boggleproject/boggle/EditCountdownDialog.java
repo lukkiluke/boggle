@@ -23,8 +23,8 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
     private ListView minuteListView;
     private ListView secondListView;
     private CountdownDialogPresenter countdownDialogPresenter;
-    private long minutes;
-    private long seconds;
+    private long minute;
+    private long second;
 
     public EditCountdownDialog() {
         // Empty constructor required for DialogFragment
@@ -51,7 +51,7 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
         minuteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                minutes = (long) minuteListView.getAdapter().getItem(position);
+                minute = countdownDialogPresenter.getMinuteAt(position);
                 countdownDialogPresenter.setCountdownTimeInSeconds();
             }
         });
@@ -59,7 +59,7 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
         secondListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                seconds = (long) secondListView.getAdapter().getItem(position);
+                second = countdownDialogPresenter.getSecondAt(position);
                 countdownDialogPresenter.setCountdownTimeInSeconds();
             }
         });
@@ -75,28 +75,38 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
         return view;
     }
 
-    private ArrayAdapter<Long> getArrayAdapterForArray(ArrayList<Long> dataList) {
-        ArrayAdapter<Long> listViewArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.list_item_countdown, dataList); //selected item will look like a spinner set from XML
+    private ArrayAdapter<String> getArrayAdapterForList(ArrayList<String> dataList) {
+        ArrayAdapter<String> listViewArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.list_item_countdown, dataList); //selected item will look like a spinner set from XML
         return listViewArrayAdapter;
+    }
+
+    private ArrayList<String> getStringListFromArray(long [] numberArray){
+        ArrayList<String> numbersAsStringList = new ArrayList<>();
+        for (int i=0; i<numberArray.length; i++){
+            numbersAsStringList.add(String.format("%02d", numberArray[i]));
+        }
+        return numbersAsStringList;
     }
 
     @Override
     public void setMinuteValuesInView() {
-        minuteListView.setAdapter(getArrayAdapterForArray(countdownDialogPresenter.getTimeElements()));
+        long [] minutes = countdownDialogPresenter.getMinutesArray();
+        minuteListView.setAdapter(getArrayAdapterForList(getStringListFromArray(minutes)));
     }
 
     @Override
     public void setSecondValuesInView() {
-        secondListView.setAdapter(getArrayAdapterForArray(countdownDialogPresenter.getTimeElements()));
+        long [] seconds = countdownDialogPresenter.getMinutesArray();
+        secondListView.setAdapter(getArrayAdapterForList(getStringListFromArray(seconds)));
     }
 
 
     private long getMinutesInSeconds() {
-        return minutes * 60;
+        return minute * 60;
     }
 
     private long getSeconds() {
-        return seconds;
+        return second;
     }
 
     private long calculateCountdownTimeInSeconds() {

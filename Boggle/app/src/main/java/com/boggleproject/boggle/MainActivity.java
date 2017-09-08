@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 presenter.timerButtonClick();
                 if (isChecked) {
-                    toggleTimerBtn.setTextOn("Timer abbrechen");
+//                    toggleTimerBtn.setTextOn("Timer zurücksetzen");
                     throwBtn.setEnabled(false);
                 } else {
-                    toggleTimerBtn.setTextOff("Timer neustarten");
+//                    toggleTimerBtn.setTextOff("Timer starten");
                     throwBtn.setEnabled(true);
                 }
             }
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     @Override
     public void actionOnTimerFinish() {
         timerFinishedBtn.setVisibility(View.VISIBLE);
-        toggleTimerBtn.setText("Timer neustarten");
+        toggleTimerBtn.setText("Timer zurücksetzen");
     }
 
     @Override
