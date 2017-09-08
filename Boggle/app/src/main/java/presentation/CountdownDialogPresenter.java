@@ -28,37 +28,50 @@ public class CountdownDialogPresenter {
         mainActivityPresenter.updateView();
     }
 
-    public long getCountdownTimeInSeconds(){
-        return mainActivityPresenter.getCountDownTimeInMilliseconds()/1000;
+    public long getCountdownTimeInSeconds() {
+        return mainActivityPresenter.getCountDownTimeInMilliseconds() / 1000;
     }
 
-    private void createMinutesArray(){
-        minutes = new long [61];
-        for(int i = 0; i<minutes.length; i++){
+    private void createMinutesArray() {
+        minutes = new long[61];
+        for (int i = 0; i < minutes.length; i++) {
             minutes[i] = (long) i;
         }
     }
 
-    public long[] getMinutesArray(){
+    public long[] getMinutesArray() {
         return minutes;
     }
 
-    public long getMinuteAt(int index){
+    public long getMinuteAt(int index) {
         return minutes[index];
     }
 
-    private void createSecondsArray(){
+    public int getPositionOfValue(long[] valueArray, long value) {
+        boolean minuteFound = false;
+        int i = 0;
+        while (!minuteFound) {
+            if (value != valueArray[i])
+                i++;
+            else {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void createSecondsArray() {
         seconds = new long[61];
-        for(int i = 0; i<seconds.length; i++){
+        for (int i = 0; i < seconds.length; i++) {
             seconds[i] = (long) i;
         }
     }
 
-    public long[] getSecondsArray(){
+    public long[] getSecondsArray() {
         return seconds;
     }
 
-    public long getSecondAt(int index){
+    public long getSecondAt(int index) {
         return seconds[index];
     }
 }

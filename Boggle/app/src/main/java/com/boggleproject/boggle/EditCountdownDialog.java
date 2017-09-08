@@ -104,9 +104,11 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
 
     private void setCurrentCountDownTimeInListViews(long countDownTimeInSeconds){
         long minutes = (int) countDownTimeInSeconds/60;
-        long seconds = minutes*60-countDownTimeInSeconds;
-        minuteListView.setSelection((int)minutes);
-        secondListView.setSelection((int)seconds);
+        long seconds = countDownTimeInSeconds-minutes*60;
+        int minutePosition = countdownDialogPresenter.getPositionOfValue(countdownDialogPresenter.getMinutesArray(), minutes);
+        int secondPosition = countdownDialogPresenter.getPositionOfValue(countdownDialogPresenter.getSecondsArray(), seconds);
+        minuteListView.setSelection(minutePosition);
+        secondListView.setSelection(secondPosition);
     }
 
     private long getMinutesInSeconds() {
@@ -120,7 +122,6 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
     private long calculateCountdownTimeInSeconds() {
         return getMinutesInSeconds() + getSeconds();
     }
-
 
     @Override
     public long getCountdownTimeInSeconds() {
