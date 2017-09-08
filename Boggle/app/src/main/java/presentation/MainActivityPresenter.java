@@ -61,7 +61,7 @@ public class MainActivityPresenter {
         countDownTimer = new CountDownTimerActivity(l, 1000);
     }
 
-    public long getCountDownTime() {
+    public long getCountDownTimeInMilliseconds() {
         return countDownTime;
     }
 

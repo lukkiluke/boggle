@@ -1,9 +1,6 @@
 package com.boggleproject.boggle;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -61,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     private void initContent(){
         setMixedDicesOnView();
-        setCountDownText(presenter.getCountDownTime());
+        setCountDownText(presenter.getCountDownTimeInMilliseconds());
     }
 
     @Override
@@ -163,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     public void updateView() {
-        setCountDownText(presenter.getCountDownTime());
+        setCountDownText(presenter.getCountDownTimeInMilliseconds());
     }
 
     @Override

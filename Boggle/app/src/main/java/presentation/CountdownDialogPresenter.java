@@ -2,8 +2,6 @@ package presentation;
 
 import com.boggleproject.boggle.EditCountdownDialogInterface;
 
-import java.util.ArrayList;
-
 /**
  * Created by lukas on 9/6/17.
  */
@@ -12,7 +10,6 @@ public class CountdownDialogPresenter {
 
     private MainActivityPresenter mainActivityPresenter;
     private EditCountdownDialogInterface cdDialog;
-    private long countdownTimeInSeconds;
     private long[] minutes;
     private long[] seconds;
 
@@ -27,9 +24,12 @@ public class CountdownDialogPresenter {
     }
 
     public void setCountdownTimeInSeconds() {
-        countdownTimeInSeconds = cdDialog.getCountdownTimeInSeconds();
-        mainActivityPresenter.setCountDownTimer(countdownTimeInSeconds * 1000);
+        mainActivityPresenter.setCountDownTimer(cdDialog.getCountdownTimeInSeconds() * 1000);
         mainActivityPresenter.updateView();
+    }
+
+    public long getCountdownTimeInSeconds(){
+        return mainActivityPresenter.getCountDownTimeInMilliseconds()/1000;
     }
 
     private void createMinutesArray(){
@@ -60,12 +60,5 @@ public class CountdownDialogPresenter {
 
     public long getSecondAt(int index){
         return seconds[index];
-    }
-
-    public final ArrayList<Long> getTimeElements() {
-        ArrayList<Long> timeElements = new ArrayList<>();
-        for (int i = 0; i <= 60; i++)
-            timeElements.add((long) i);
-        return timeElements;
     }
 }
