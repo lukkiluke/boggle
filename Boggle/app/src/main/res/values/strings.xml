@@ -6,6 +6,8 @@
     <string name="toggleTimer_btn_on">Timer zurücksetzen</string>
     <string name="toggleTimer_btn_off">Timer Starten</string>
     <string name="timerFinished_button">Zeit ist abgelaufen</string>
+    <string name="fragmentTitle">Countdownzeit</string>
     <string name="fragmentMinute">Minuten</string>
     <string name="fragmentSecond">Sekunden</string>
+    <string name="fragmentOkay_btn">Übernehmen</string>
 </resources>

@@ -10,13 +10,13 @@ public class CountdownDialogPresenter {
 
     private MainActivityPresenter mainActivityPresenter;
     private EditCountdownDialogInterface cdDialog;
-    private long[] minutes;
-    private long[] seconds;
+    private long[] maxMinMinutes;
+    private long[] maxMinSeconds;
 
     public CountdownDialogPresenter(MainActivityPresenter mainActivityPresenter) {
         this.mainActivityPresenter = mainActivityPresenter;
-        createMinutesArray();
-        createSecondsArray();
+        createMaxMinMinutes();
+        createMaxMinSeconds();
     }
 
     public void setCountdownDialog(EditCountdownDialogInterface countdownDialog) {
@@ -32,46 +32,19 @@ public class CountdownDialogPresenter {
         return mainActivityPresenter.getCountDownTimeInMilliseconds() / 1000;
     }
 
-    private void createMinutesArray() {
-        minutes = new long[61];
-        for (int i = 0; i < minutes.length; i++) {
-            minutes[i] = (long) i;
-        }
+    private void createMaxMinMinutes() {
+        maxMinMinutes = new long[]{0, 60};
     }
 
-    public long[] getMinutesArray() {
-        return minutes;
+    public long[] getMinMaxMinutes() {
+        return maxMinMinutes;
     }
 
-    public long getMinuteAt(int index) {
-        return minutes[index];
+    private void createMaxMinSeconds() {
+        maxMinSeconds = new long[]{0,60};
     }
 
-    public int getPositionOfValue(long[] valueArray, long value) {
-        boolean minuteFound = false;
-        int i = 0;
-        while (!minuteFound) {
-            if (value != valueArray[i])
-                i++;
-            else {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private void createSecondsArray() {
-        seconds = new long[61];
-        for (int i = 0; i < seconds.length; i++) {
-            seconds[i] = (long) i;
-        }
-    }
-
-    public long[] getSecondsArray() {
-        return seconds;
-    }
-
-    public long getSecondAt(int index) {
-        return seconds[index];
+    public long[] getMinMaxSeconds() {
+        return maxMinSeconds;
     }
 }

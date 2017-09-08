@@ -5,12 +5,8 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-
-import java.util.ArrayList;
+import android.widget.NumberPicker;
 
 import presentation.CountdownDialogPresenter;
 
@@ -20,8 +16,8 @@ import presentation.CountdownDialogPresenter;
 
 public class EditCountdownDialog extends DialogFragment implements EditCountdownDialogInterface {
 
-    private ListView minuteListView;
-    private ListView secondListView;
+    private NumberPicker minutePicker;
+    private NumberPicker secondPicker;
     private CountdownDialogPresenter countdownDialogPresenter;
     private long minute;
     private long second;
@@ -39,8 +35,8 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_countdown, container);
-        minuteListView = view.findViewById(R.id.listViewMinutes);
-        secondListView = view.findViewById(R.id.listViewSeconds);
+        minutePicker = view.findViewById(R.id.numberPickerMinutes);
+        secondPicker = view.findViewById(R.id.numberPickerSeconds);
         Button okayBtn = view.findViewById(R.id.okayBtn);
 
         setMinuteValuesInView();
@@ -50,18 +46,18 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
 
         getDialog().setTitle("Countdown");
 
-        minuteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                minute = countdownDialogPresenter.getMinuteAt(position);
+            public void onValueChange(NumberPicker numberPicker, int value, int i1) {
+                minute = value;
                 countdownDialogPresenter.setCountdownTimeInSeconds();
             }
         });
 
-        secondListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        secondPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                second = countdownDialogPresenter.getSecondAt(position);
+            public void onValueChange(NumberPicker numberPicker, int value, int i1) {
+                second = value;
                 countdownDialogPresenter.setCountdownTimeInSeconds();
             }
         });
@@ -69,7 +65,6 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
         okayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countdownDialogPresenter.setCountdownTimeInSeconds();
                 dismiss();
             }
         });
@@ -77,38 +72,23 @@ public class EditCountdownDialog extends DialogFragment implements EditCountdown
         return view;
     }
 
-    private ArrayAdapter<String> getArrayAdapterForList(ArrayList<String> dataList) {
-        ArrayAdapter<String> listViewArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.list_item_countdown, dataList); //selected item will look like a spinner set from XML
-        return listViewArrayAdapter;
-    }
-
-    private ArrayList<String> getStringListFromArray(long [] numberArray){
-        ArrayList<String> numbersAsStringList = new ArrayList<>();
-        for (int i=0; i<numberArray.length; i++){
-            numbersAsStringList.add(String.format("%02d", numberArray[i]));
-        }
-        return numbersAsStringList;
-    }
-
     @Override
     public void setMinuteValuesInView() {
-        long [] minutes = countdownDialogPresenter.getMinutesArray();
-        minuteListView.setAdapter(getArrayAdapterForList(getStringListFromArray(minutes)));
+        minutePicker.setMinValue((int) countdownDialogPresenter.getMinMaxMinutes()[0]);
+        minutePicker.setMaxValue((int) countdownDialogPresenter.getMinMaxMinutes()[1]);
     }
 
     @Override
     public void setSecondValuesInView() {
-        long [] seconds = countdownDialogPresenter.getSecondsArray();
-        secondListView.setAdapter(getArrayAdapterForList(getStringListFromArray(seconds)));
+        secondPicker.setMinValue((int) countdownDialogPresenter.getMinMaxSeconds()[0]);
+        secondPicker.setMaxValue((int) countdownDialogPresenter.getMinMaxSeconds()[1]);
     }
 
-    private void setCurrentCountDownTimeInListViews(long countDownTimeInSeconds){
-        long minutes = (int) countDownTimeInSeconds/60;
-        long seconds = countDownTimeInSeconds-minutes*60;
-        int minutePosition = countdownDialogPresenter.getPositionOfValue(countdownDialogPresenter.getMinutesArray(), minutes);
-        int secondPosition = countdownDialogPresenter.getPositionOfValue(countdownDialogPresenter.getSecondsArray(), seconds);
-        minuteListView.setSelection(minutePosition);
-        secondListView.setSelection(secondPosition);
+    private void setCurrentCountDownTimeInListViews(long countDownTimeInSeconds) {
+        long minutes = (int) countDownTimeInSeconds / 60;
+        long seconds = countDownTimeInSeconds - minutes * 60;
+        minutePicker.setValue((int) minutes);
+        secondPicker.setValue((int) seconds);
     }
 
     private long getMinutesInSeconds() {
