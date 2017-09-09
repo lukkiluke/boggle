@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +19,13 @@ import presentation.MainActivityPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainActivityInterface {
 
-    MainActivityPresenter presenter;
-    TextView[] diceTextViewArray;
-    TextView countDownTxtView;
-    Button throwBtn;
-    Button timerBtn;
-    Button timerFinishedBtn;
+    private MainActivityPresenter presenter;
+    private TextView[] diceTextViewArray;
+    private TextView countDownTxtView;
+    private Button throwBtn;
+    private ToggleButton toggleTimerBtn;
+    private Button timerFinishedBtn;
+    private boolean isTimerRunning = false;
 
     private void initTextViews() {
         diceTextViewArray = new TextView[16];
@@ -48,9 +51,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     private void initButtons() {
         throwBtn = (Button) findViewById(R.id.throwbtn);
-        timerBtn = (Button) findViewById(R.id.timerbtn);
         timerFinishedBtn = (Button) findViewById(R.id.timerfinishedbtn);
         timerFinishedBtn.setVisibility(View.INVISIBLE);
+        toggleTimerBtn = (ToggleButton) findViewById(R.id.toggleTimerBtn);
+        toggleTimerBtn.setText("Timer starten");
+    }
+
+    private void initContent(){
+        setMixedDicesOnView();
+        setCountDownText(presenter.getCountDownTimeInMilliseconds());
     }
 
     @Override
@@ -65,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         initButtons();
 
         presenter = new MainActivityPresenter(this);
-        presenter.setCountDownTimer(180000);
+        initContent();
 
         throwBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,16 +83,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             }
 
         });
-        timerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.timerButtonClick();
-            }
-        });
         timerFinishedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 timerFinishedBtn.setVisibility(View.INVISIBLE);
+            }
+        });
+        toggleTimerBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                presenter.timerButtonClick();
+                if (isChecked) {
+                    throwBtn.setEnabled(false);
+                    isTimerRunning = true;
+                } else {
+                    throwBtn.setEnabled(true);
+                    timerFinishedBtn.setVisibility(View.INVISIBLE);
+                    isTimerRunning = false;
+                }
             }
         });
     }
@@ -106,8 +123,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.timer_settings) {
+            if(!isTimerRunning){
+                presenter.showCountdownDialog();
+                return true;
+            } else {
+                presenter.cancelTimer();
+                presenter.showCountdownDialog();
+                toggleTimerBtn.performClick();
+                return true;
+            }
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showCountdownDialog(EditCountdownDialog editCountdownDialog) {
+        editCountdownDialog.show(getSupportFragmentManager(), "fragment_edit_countdown");
     }
 
     @Override
@@ -124,16 +157,31 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         return presenter.getRotation();
     }
 
+    private void setCountDownText(long countDownTimeInMilliseconds){
+        countDownTxtView.setText(getTextInMinutesAndSeconds(countDownTimeInMilliseconds));
+    }
+
+    private String getTextInMinutesAndSeconds(long timeInMilliseconds){
+        long seconds = timeInMilliseconds/1000;
+        long minutes = (int) seconds/60;
+        seconds = seconds - (minutes*60);
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    @Override
+    public void updateView() {
+        setCountDownText(presenter.getCountDownTimeInMilliseconds());
+    }
+
     @Override
     public void actionOnTimerTick(long l) {
-        countDownTxtView.setText("" + l / 1000);
-        timerBtn.setText("Timer is running");
+        countDownTxtView.setText(getTextInMinutesAndSeconds(l));
     }
 
     @Override
     public void actionOnTimerFinish() {
         timerFinishedBtn.setVisibility(View.VISIBLE);
-        timerBtn.setText("Restart Timer");
+//        toggleTimerBtn.setText("Timer zurücksetzen");
     }
 
     @Override

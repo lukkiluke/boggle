@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Boggle</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="timer_settings">Countdown einstellen</string>
+    <string name="throwDice_button">Würfeln</string>
+    <string name="toggleTimer_btn_on">Timer zurücksetzen</string>
+    <string name="toggleTimer_btn_off">Timer Starten</string>
+    <string name="timerFinished_button">Zeit ist abgelaufen</string>
+    <string name="fragmentTitle">Zeit einstellen</string>
+    <string name="fragmentMinute">Minuten</string>
+    <string name="fragmentSecond">Sekunden</string>
+    <string name="fragmentOkay_btn">Übernehmen</string>
 </resources>
