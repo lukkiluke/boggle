@@ -84,6 +84,10 @@ public class MainActivityPresenter {
         timerButtonClicked = !timerButtonClicked;
     }
 
+    public void cancelTimer(){
+        countDownTimer.cancel();
+    }
+
     public class CountDownTimerActivity extends CountDownTimer {
 
         public CountDownTimerActivity(long millisInFuture, long countDownInterval) {

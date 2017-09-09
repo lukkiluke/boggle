@@ -41,7 +41,7 @@ public class CountdownDialogPresenter {
     }
 
     private void createMaxMinSeconds() {
-        maxMinSeconds = new int[]{0,60};
+        maxMinSeconds = new int[]{0,59};
     }
 
     public int[] getMinMaxSeconds() {

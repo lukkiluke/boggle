@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     private Button throwBtn;
     private ToggleButton toggleTimerBtn;
     private Button timerFinishedBtn;
+    private boolean isTimerRunning = false;
 
     private void initTextViews() {
         diceTextViewArray = new TextView[16];
@@ -94,8 +95,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                 presenter.timerButtonClick();
                 if (isChecked) {
                     throwBtn.setEnabled(false);
+                    isTimerRunning = true;
                 } else {
                     throwBtn.setEnabled(true);
+                    timerFinishedBtn.setVisibility(View.INVISIBLE);
+                    isTimerRunning = false;
                 }
             }
         });
@@ -120,7 +124,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             return true;
         }
         if (id == R.id.timer_settings) {
-            presenter.showCountdownDialog();
+            if(!isTimerRunning){
+                presenter.showCountdownDialog();
+                return true;
+            } else {
+                presenter.cancelTimer();
+                presenter.showCountdownDialog();
+                toggleTimerBtn.performClick();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -169,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     @Override
     public void actionOnTimerFinish() {
         timerFinishedBtn.setVisibility(View.VISIBLE);
-        toggleTimerBtn.setText("Timer zurücksetzen");
+//        toggleTimerBtn.setText("Timer zurücksetzen");
     }
 
     @Override
