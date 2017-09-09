@@ -31,7 +31,7 @@ public class MainActivityPresenter {
         boggleBox = new BoggleBox(mainActivity.getInputDice());
     }
 
-    public char[] getMixedDices() {
+    public String[] getMixedDices() {
         return boggleBox.shakeBoggleBox();
     }
 

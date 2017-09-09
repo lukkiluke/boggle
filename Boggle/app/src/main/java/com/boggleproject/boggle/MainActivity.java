@@ -3,48 +3,37 @@ package com.boggleproject.boggle;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import presentation.MainActivityPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainActivityInterface {
 
     private MainActivityPresenter presenter;
-    private TextView[] diceTextViewArray;
     private TextView countDownTxtView;
     private Button throwBtn;
     private ToggleButton toggleTimerBtn;
     private Button timerFinishedBtn;
     private boolean isTimerRunning = false;
+    private String[] topSidesOfDices;
 
     private void initTextViews() {
-        diceTextViewArray = new TextView[16];
-        diceTextViewArray[0] = (TextView) findViewById(R.id.diceTextView1);
-        diceTextViewArray[1] = (TextView) findViewById(R.id.diceTextView2);
-        diceTextViewArray[2] = (TextView) findViewById(R.id.diceTextView3);
-        diceTextViewArray[3] = (TextView) findViewById(R.id.diceTextView4);
-        diceTextViewArray[4] = (TextView) findViewById(R.id.diceTextView5);
-        diceTextViewArray[5] = (TextView) findViewById(R.id.diceTextView6);
-        diceTextViewArray[6] = (TextView) findViewById(R.id.diceTextView7);
-        diceTextViewArray[7] = (TextView) findViewById(R.id.diceTextView8);
-        diceTextViewArray[8] = (TextView) findViewById(R.id.diceTextView9);
-        diceTextViewArray[9] = (TextView) findViewById(R.id.diceTextView10);
-        diceTextViewArray[10] = (TextView) findViewById(R.id.diceTextView11);
-        diceTextViewArray[11] = (TextView) findViewById(R.id.diceTextView12);
-        diceTextViewArray[12] = (TextView) findViewById(R.id.diceTextView13);
-        diceTextViewArray[13] = (TextView) findViewById(R.id.diceTextView14);
-        diceTextViewArray[14] = (TextView) findViewById(R.id.diceTextView15);
-        diceTextViewArray[15] = (TextView) findViewById(R.id.diceTextView16);
 
         countDownTxtView = (TextView) findViewById(R.id.countdownTxtView);
     }
@@ -75,11 +64,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
         presenter = new MainActivityPresenter(this);
         initContent();
+        final GridView gridView = findViewById(R.id.diceGridView);
+        gridView.setAdapter(new GridAdapter(presenter.getMixedDices()));
 
         throwBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setMixedDicesOnView();
+                gridView.setAdapter(new GridAdapter(topSidesOfDices));
             }
 
         });
@@ -145,12 +137,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     public void setMixedDicesOnView() {
-        char[] topSidesOfDices = presenter.getMixedDices();
-        ;
-        for (int i = 0; i < diceTextViewArray.length; i++) {
-            diceTextViewArray[i].setText(Character.toString(topSidesOfDices[i]));
-            diceTextViewArray[i].setRotation(getRotation());
-        }
+        topSidesOfDices = presenter.getMixedDices();
+
+
+//        for (int i = 0; i < diceTextViewArray.length; i++) {
+//            diceTextViewArray[i].setText(Character.toString(topSidesOfDices[i]));
+//            diceTextViewArray[i].setRotation(getRotation());
+//        }
     }
 
     public int getRotation() {

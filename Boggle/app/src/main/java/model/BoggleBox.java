@@ -44,9 +44,14 @@ public class BoggleBox {
         return tempArr;
     }
 
-    public char[] shakeBoggleBox() {
+    public String[] shakeBoggleBox() {
         mixDices();
-        return throwDicesInBoggleBox();
+        char[] charArray = throwDicesInBoggleBox();
+        String [] stringArray = new String[charArray.length];
+        for (int i = 0; i < charArray.length; i++){
+            stringArray[i] = Character.toString(charArray[i]);
+        }
+        return stringArray;
     }
 
     private void swapArrayElements(int a, int b) {
