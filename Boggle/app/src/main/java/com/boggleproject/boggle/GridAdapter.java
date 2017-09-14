@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.Random;
+
 /**
  * Created by lukas on 09.09.2017.
  */
@@ -45,7 +47,25 @@ public class GridAdapter extends BaseAdapter {
 
             final TextView text = view.findViewById(android.R.id.text1);
             text.setText(items[position]);
+            text.setRotation(getRotation());
 
             return view;
+    }
+
+    private int getRotation() {
+        Random rand = new Random();
+        int randNum = rand.nextInt(4);
+        switch (randNum) {
+            case 0:
+                return 0;
+            case 1:
+                return 90;
+            case 2:
+                return 180;
+            case 3:
+                return 270;
+            default:
+                return 0;
+        }
     }
 }

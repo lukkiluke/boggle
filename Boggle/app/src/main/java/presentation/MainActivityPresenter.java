@@ -35,23 +35,6 @@ public class MainActivityPresenter {
         return boggleBox.shakeBoggleBox();
     }
 
-    public int getRotation() {
-        Random rand = new Random();
-        int randNum = rand.nextInt(4);
-        switch (randNum) {
-            case 0:
-                return 0;
-            case 1:
-                return 90;
-            case 2:
-                return 180;
-            case 3:
-                return 270;
-            default:
-                return 0;
-        }
-    }
-
     public void updateView() {
         mainActivity.updateView();
     }

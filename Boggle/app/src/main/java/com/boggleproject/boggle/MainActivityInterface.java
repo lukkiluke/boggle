@@ -10,7 +10,7 @@ public interface MainActivityInterface {
 
     InputStream getInputDice();
 
-    void setMixedDicesOnView();
+    void mixDices();
 
     void actionOnTimerTick(long l);
 

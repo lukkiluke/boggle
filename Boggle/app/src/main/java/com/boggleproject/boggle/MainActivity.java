@@ -3,23 +3,21 @@ package com.boggleproject.boggle;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import presentation.MainActivityPresenter;
 
@@ -32,9 +30,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     private Button timerFinishedBtn;
     private boolean isTimerRunning = false;
     private String[] topSidesOfDices;
+    private GridAdapter gridAdapter;
+    private GridView diceView;
 
     private void initTextViews() {
-
         countDownTxtView = (TextView) findViewById(R.id.countdownTxtView);
     }
 
@@ -43,11 +42,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         timerFinishedBtn = (Button) findViewById(R.id.timerfinishedbtn);
         timerFinishedBtn.setVisibility(View.INVISIBLE);
         toggleTimerBtn = (ToggleButton) findViewById(R.id.toggleTimerBtn);
-        toggleTimerBtn.setText("Timer starten");
+    }
+
+    private void initDiceView(){
+        mixDices();
+        diceView = findViewById(R.id.diceGridView);
+        gridAdapter = new GridAdapter(topSidesOfDices);
+        diceView.setAdapter(gridAdapter);
     }
 
     private void initContent(){
-        setMixedDicesOnView();
+        mixDices();
         setCountDownText(presenter.getCountDownTimeInMilliseconds());
     }
 
@@ -63,15 +68,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         initButtons();
 
         presenter = new MainActivityPresenter(this);
+        initDiceView();
         initContent();
-        final GridView gridView = findViewById(R.id.diceGridView);
-        gridView.setAdapter(new GridAdapter(presenter.getMixedDices()));
+
+
 
         throwBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMixedDicesOnView();
-                gridView.setAdapter(new GridAdapter(topSidesOfDices));
+                mixDices();
+                gridAdapter.notifyDataSetChanged();
+                diceView.notifyAll();
+                //diceView.invalidate();
+//                diceView.setAdapter(new GridAdapter(topSidesOfDices));
             }
 
         });
@@ -136,18 +145,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     }
 
     @Override
-    public void setMixedDicesOnView() {
-        topSidesOfDices = presenter.getMixedDices();
-
-
-//        for (int i = 0; i < diceTextViewArray.length; i++) {
-//            diceTextViewArray[i].setText(Character.toString(topSidesOfDices[i]));
-//            diceTextViewArray[i].setRotation(getRotation());
-//        }
-    }
-
-    public int getRotation() {
-        return presenter.getRotation();
+    public void mixDices() {
+        int i = 1;
+        if ( i == 1) {
+            topSidesOfDices = presenter.getMixedDices();
+        } else {
+        String [] array = {"A", "B", "C", "D"};
+        topSidesOfDices = array;}
     }
 
     private void setCountDownText(long countDownTimeInMilliseconds){
@@ -174,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     @Override
     public void actionOnTimerFinish() {
         timerFinishedBtn.setVisibility(View.VISIBLE);
-//        toggleTimerBtn.setText("Timer zurücksetzen");
     }
 
     @Override
