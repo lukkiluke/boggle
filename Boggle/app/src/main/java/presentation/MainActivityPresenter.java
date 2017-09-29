@@ -3,10 +3,9 @@ package presentation;
 import android.os.CountDownTimer;
 
 import com.boggleproject.boggle.EditCountdownDialog;
-import com.boggleproject.boggle.EditCountdownDialogInterface;
 import com.boggleproject.boggle.MainActivityInterface;
 
-import java.util.Random;
+import java.util.List;
 
 import model.BoggleBox;
 
@@ -31,7 +30,7 @@ public class MainActivityPresenter {
         boggleBox = new BoggleBox(mainActivity.getInputDice());
     }
 
-    public String[] getMixedDices() {
+    public List<String> getMixedDices() {
         return boggleBox.shakeBoggleBox();
     }
 

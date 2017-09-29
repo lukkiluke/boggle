@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,12 +15,12 @@ import java.util.Random;
 
 public class GridAdapter extends BaseAdapter {
 
-    private String[] items;
+    private List<String> items;
     private int numberOfItems;
 
-    public GridAdapter(String[] items) {
+    public GridAdapter(List<String> items) {
         this.items = items;
-        this.numberOfItems = items.length;
+        this.numberOfItems = items.size();
     }
 
     @Override
@@ -29,7 +30,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return items[position];
+        return items.get(position);
     }
 
     @Override
@@ -37,19 +38,18 @@ public class GridAdapter extends BaseAdapter {
         return position;
     }
 
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
+        View view = convertView;
 
-            if (view == null) {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dice_text_view, parent, false);
-            }
+        if (view == null) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dice_text_view, parent, false);
+        }
 
-            final TextView text = view.findViewById(android.R.id.text1);
-            text.setText(items[position]);
-            text.setRotation(getRotation());
+        final TextView text = view.findViewById(android.R.id.text1);
+        text.setText(items.get(position));
+        text.setRotation(getRotation());
 
-            return view;
+        return view;
     }
 
     private int getRotation() {
@@ -68,4 +68,5 @@ public class GridAdapter extends BaseAdapter {
                 return 0;
         }
     }
+
 }

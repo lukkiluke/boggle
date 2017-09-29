@@ -3,21 +3,19 @@ package com.boggleproject.boggle;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import presentation.MainActivityPresenter;
 
@@ -29,9 +27,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     private ToggleButton toggleTimerBtn;
     private Button timerFinishedBtn;
     private boolean isTimerRunning = false;
-    private String[] topSidesOfDices;
+    private List<String> topSidesOfDices;
     private GridAdapter gridAdapter;
     private GridView diceView;
+    private boolean foo;
 
     private void initTextViews() {
         countDownTxtView = (TextView) findViewById(R.id.countdownTxtView);
@@ -44,20 +43,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         toggleTimerBtn = (ToggleButton) findViewById(R.id.toggleTimerBtn);
     }
 
-    private void initDiceView(){
+    private void initDiceView() {
         mixDices();
         diceView = findViewById(R.id.diceGridView);
         gridAdapter = new GridAdapter(topSidesOfDices);
         diceView.setAdapter(gridAdapter);
     }
 
-    private void initContent(){
-        mixDices();
+    private void initContent() {
+        //mixDices();
         setCountDownText(presenter.getCountDownTimeInMilliseconds());
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        foo = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,15 +72,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         initContent();
 
 
-
         throwBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mixDices();
                 gridAdapter.notifyDataSetChanged();
-                diceView.notifyAll();
-                //diceView.invalidate();
-//                diceView.setAdapter(new GridAdapter(topSidesOfDices));
             }
 
         });
@@ -125,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             return true;
         }
         if (id == R.id.timer_settings) {
-            if(!isTimerRunning){
+            if (!isTimerRunning) {
                 presenter.showCountdownDialog();
                 return true;
             } else {
@@ -146,22 +142,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     public void mixDices() {
-        int i = 1;
-        if ( i == 1) {
+        if (foo) {
             topSidesOfDices = presenter.getMixedDices();
+            foo = false;
         } else {
-        String [] array = {"A", "B", "C", "D"};
-        topSidesOfDices = array;}
+            topSidesOfDices.removeAll(topSidesOfDices);
+            topSidesOfDices.addAll(presenter.getMixedDices());
+        }
     }
 
-    private void setCountDownText(long countDownTimeInMilliseconds){
+    private void setCountDownText(long countDownTimeInMilliseconds) {
         countDownTxtView.setText(getTextInMinutesAndSeconds(countDownTimeInMilliseconds));
     }
 
-    private String getTextInMinutesAndSeconds(long timeInMilliseconds){
-        long seconds = timeInMilliseconds/1000;
-        long minutes = (int) seconds/60;
-        seconds = seconds - (minutes*60);
+    private String getTextInMinutesAndSeconds(long timeInMilliseconds) {
+        long seconds = timeInMilliseconds / 1000;
+        long minutes = (int) seconds / 60;
+        seconds = seconds - (minutes * 60);
         return String.format("%02d:%02d", minutes, seconds);
     }
 

@@ -1,6 +1,8 @@
 package model;
 
 import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -44,14 +46,14 @@ public class BoggleBox {
         return tempArr;
     }
 
-    public String[] shakeBoggleBox() {
+    public List<String> shakeBoggleBox() {
         mixDices();
         char[] charArray = throwDicesInBoggleBox();
-        String [] stringArray = new String[charArray.length];
+        List<String> stringList = new LinkedList<>();
         for (int i = 0; i < charArray.length; i++){
-            stringArray[i] = Character.toString(charArray[i]);
+            stringList.add(Character.toString(charArray[i]));
         }
-        return stringArray;
+        return stringList;
     }
 
     private void swapArrayElements(int a, int b) {
