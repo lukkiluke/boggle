@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     }
 
     private void initContent() {
-        //mixDices();
         setCountDownText(presenter.getCountDownTimeInMilliseconds());
     }
 
@@ -109,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         return true;
     }
 
+    private boolean switchRotation(){
+        gridAdapter.setRotating(!gridAdapter.getRotating());
+        return gridAdapter.getRotating();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -117,19 +121,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.timer_settings) {
-            if (!isTimerRunning) {
-                presenter.showCountdownDialog();
+        switch (id){
+            case R.id.action_settings:
                 return true;
-            } else {
-                presenter.cancelTimer();
-                presenter.showCountdownDialog();
-                toggleTimerBtn.performClick();
+            case R.id.timer_settings:
+                if (!isTimerRunning) {
+                    presenter.showCountdownDialog();
+                    return true;
+                } else {
+                    presenter.cancelTimer();
+                    presenter.showCountdownDialog();
+                    toggleTimerBtn.performClick();
+                    return true;
+                }
+            case R.id.rotation_switch:
+                item.setChecked(switchRotation());
                 return true;
-            }
         }
 
         return super.onOptionsItemSelected(item);

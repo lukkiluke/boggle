@@ -2,6 +2,7 @@
     <string name="app_name">Boggle</string>
     <string name="action_settings">Einstellungen</string>
     <string name="timer_settings">Countdown einstellen</string>
+    <string name="rotation_switch_setting">Buchstabenrotation</string>
     <string name="throwDice_button">Würfeln</string>
     <string name="toggleTimer_btn_on">Timer Stoppen</string>
     <string name="toggleTimer_btn_off">Timer Starten</string>

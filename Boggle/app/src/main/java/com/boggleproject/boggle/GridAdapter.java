@@ -17,10 +17,12 @@ public class GridAdapter extends BaseAdapter {
 
     private List<String> items;
     private int numberOfItems;
+    private boolean isRotating;
 
     public GridAdapter(List<String> items) {
         this.items = items;
         this.numberOfItems = items.size();
+        isRotating = true;
     }
 
     @Override
@@ -47,9 +49,20 @@ public class GridAdapter extends BaseAdapter {
 
         final TextView text = view.findViewById(android.R.id.text1);
         text.setText(items.get(position));
-        text.setRotation(getRotation());
+        if (isRotating)
+            text.setRotation(getRotation());
+        else
+            text.setRotation(0);
 
         return view;
+    }
+
+    public boolean getRotating(){
+        return isRotating;
+    }
+
+    public void setRotating(boolean rotating) {
+        this.isRotating = rotating;
     }
 
     private int getRotation() {
