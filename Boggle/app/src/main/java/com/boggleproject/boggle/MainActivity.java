@@ -3,14 +3,10 @@ package com.boggleproject.boggle;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
@@ -19,7 +15,7 @@ import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 import presentation.MainActivityPresenter;
 
@@ -31,10 +27,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     private ToggleButton toggleTimerBtn;
     private Button timerFinishedBtn;
     private boolean isTimerRunning = false;
-    private String[] topSidesOfDices;
+    private List<String> topSidesOfDices;
+    private GridAdapter gridAdapter;
+    private GridView diceView;
+    private boolean foo;
 
     private void initTextViews() {
-
         countDownTxtView = (TextView) findViewById(R.id.countdownTxtView);
     }
 
@@ -43,16 +41,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         timerFinishedBtn = (Button) findViewById(R.id.timerfinishedbtn);
         timerFinishedBtn.setVisibility(View.INVISIBLE);
         toggleTimerBtn = (ToggleButton) findViewById(R.id.toggleTimerBtn);
-        toggleTimerBtn.setText("Timer starten");
     }
 
-    private void initContent(){
-        setMixedDicesOnView();
+    private void initDiceView() {
+        mixDices();
+        diceView = findViewById(R.id.diceGridView);
+        gridAdapter = new GridAdapter(topSidesOfDices);
+        diceView.setAdapter(gridAdapter);
+    }
+
+    private void initContent() {
+        //mixDices();
         setCountDownText(presenter.getCountDownTimeInMilliseconds());
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        foo = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,15 +68,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         initButtons();
 
         presenter = new MainActivityPresenter(this);
+        initDiceView();
         initContent();
-        final GridView gridView = findViewById(R.id.diceGridView);
-        gridView.setAdapter(new GridAdapter(presenter.getMixedDices()));
+
 
         throwBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMixedDicesOnView();
-                gridView.setAdapter(new GridAdapter(topSidesOfDices));
+                mixDices();
+                gridAdapter.notifyDataSetChanged();
             }
 
         });
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             return true;
         }
         if (id == R.id.timer_settings) {
-            if(!isTimerRunning){
+            if (!isTimerRunning) {
                 presenter.showCountdownDialog();
                 return true;
             } else {
@@ -136,28 +141,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     }
 
     @Override
-    public void setMixedDicesOnView() {
-        topSidesOfDices = presenter.getMixedDices();
-
-
-//        for (int i = 0; i < diceTextViewArray.length; i++) {
-//            diceTextViewArray[i].setText(Character.toString(topSidesOfDices[i]));
-//            diceTextViewArray[i].setRotation(getRotation());
-//        }
+    public void mixDices() {
+        if (foo) {
+            topSidesOfDices = presenter.getMixedDices();
+            foo = false;
+        } else {
+            topSidesOfDices.removeAll(topSidesOfDices);
+            topSidesOfDices.addAll(presenter.getMixedDices());
+        }
     }
 
-    public int getRotation() {
-        return presenter.getRotation();
-    }
-
-    private void setCountDownText(long countDownTimeInMilliseconds){
+    private void setCountDownText(long countDownTimeInMilliseconds) {
         countDownTxtView.setText(getTextInMinutesAndSeconds(countDownTimeInMilliseconds));
     }
 
-    private String getTextInMinutesAndSeconds(long timeInMilliseconds){
-        long seconds = timeInMilliseconds/1000;
-        long minutes = (int) seconds/60;
-        seconds = seconds - (minutes*60);
+    private String getTextInMinutesAndSeconds(long timeInMilliseconds) {
+        long seconds = timeInMilliseconds / 1000;
+        long minutes = (int) seconds / 60;
+        seconds = seconds - (minutes * 60);
         return String.format("%02d:%02d", minutes, seconds);
     }
 
@@ -174,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     @Override
     public void actionOnTimerFinish() {
         timerFinishedBtn.setVisibility(View.VISIBLE);
-//        toggleTimerBtn.setText("Timer zurücksetzen");
     }
 
     @Override
