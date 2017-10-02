@@ -1,6 +1,7 @@
 package com.boggleproject.boggle;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -56,19 +57,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        foo = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        //foo = true;
         initTextViews();
         initButtons();
 
         presenter = new MainActivityPresenter(this);
         initDiceView();
         initContent();
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 
         throwBtn.setOnClickListener(new View.OnClickListener() {
