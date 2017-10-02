@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:key="rotation"
-        android:title="@string/rotation_switch_setting"
-        android:defaultValue="true"/>
+    <PreferenceCategory
+        android:title="@string/setup_title">
+
+        <CheckBoxPreference
+            android:key="rotation"
+            android:title="@string/rotation_switch_setting"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
 </PreferenceScreen>

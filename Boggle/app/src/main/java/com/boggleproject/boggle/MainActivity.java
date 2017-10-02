@@ -1,9 +1,13 @@
 package com.boggleproject.boggle;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     private List<String> topSidesOfDices;
     private GridAdapter gridAdapter;
     private GridView diceView;
-    private boolean foo;
+    private boolean dicesInitialized;
+    private SharedPreferences sharedPre;
 
     private void initTextViews() {
         countDownTxtView = (TextView) findViewById(R.id.countdownTxtView);
@@ -63,14 +68,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         setSupportActionBar(toolbar);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        //foo = true;
+        dicesInitialized = false;
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        sharedPre = PreferenceManager.getDefaultSharedPreferences(this);
         initTextViews();
         initButtons();
 
         presenter = new MainActivityPresenter(this);
         initDiceView();
         initContent();
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 
         throwBtn.setOnClickListener(new View.OnClickListener() {
@@ -110,11 +116,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         return true;
     }
 
-    private boolean switchRotation(){
-        gridAdapter.setRotating(!gridAdapter.getRotating());
-        return gridAdapter.getRotating();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -125,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.timer_settings:
                 if (!isTimerRunning) {
@@ -136,9 +139,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                     toggleTimerBtn.performClick();
                     return true;
                 }
-            case R.id.rotation_switch:
-                item.setChecked(switchRotation());
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -151,10 +151,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     public void mixDices() {
-        if (foo) {
+        if (!dicesInitialized) {
             topSidesOfDices = presenter.getMixedDices();
-            foo = false;
+            dicesInitialized = true;
         } else {
+            boolean isRotating = sharedPre.getBoolean("rotation",true);
+            gridAdapter.setRotating(isRotating);
             topSidesOfDices.removeAll(topSidesOfDices);
             topSidesOfDices.addAll(presenter.getMixedDices());
         }
